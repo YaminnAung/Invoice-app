@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice App</title>
+    <link rel="stylesheet" href="./css/invoice.css">
+</head>
+<body>
+
+   <div id="app">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <header class="d-flex justify-content-between align-content-center m-3">
+                    <h1 class="mb-0">Invoice App</h1>
+
+                    <button id="printOpen" class="btn btn-outline-dark d-print-none">
+                        <i class="bi bi-printer"></i>
+                        Print
+                    </button>
+                </header>
+
+                <div class="d-none d-print-flex row justify-between py-3 mb-3 border-bottom">
+                  <div class="col-4">
+                    <h4>Invoice Info</h4>
+                    <p>Invoice Number : <span id="showInvoiceNumber"></span></p>
+                    <p>Invoice Date : <span id="showInvoiceDate" ></span></p>                 
+                  </div>
+                  <div class="col-4">
+                    <h4>Customer Info</h4>
+                    <p>Customer Name : <span id="showCustomerName"></span></p>
+                    <p>customer Phone : <span id="showCustomerPhone"></span></p>
+                    <p class="mb-0">
+                      Customer Address <br />
+                      <span id="showCustomerAddress"></span>
+                    </p>
+                  </div>
+                </div>
+
+
+                <div id="builder" class="border p-3 mb-3 d-print-none">
+                    <form action="" id="addListForm">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="">
+                                    <label for="" class="form-label">Product / Service
+                                        <span class="badge bg-dark" id="addServiceModalOpen"
+                                        >
+                                            <i class="bi bi-plus" ></i>
+                                            <span class="user-select-none"></span>
+                                            new Service
+                                        </span>                                   
+                                    </label>
+                                        <select class="form-select form-select-lg" name="" id="selectService">
+                                           
+                                    </select>
+                                </div>
+                            </div>
+                        <div class="col">
+                            <label for="" class="form-label">Quantity</label>
+                            <input type="number" 
+                            class="form-control form-control-lg" 
+                            id="quantity" 
+                            required>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-dark w-100 h-100">
+                                <i class="bi bi-plus-circle"></i>
+                                Add
+                              </button>
+                        </div>
+                      </div>
+                    </form>               
+            </div>
+            <table id="table" class="table table-hover table-bordered d-none">
+                <thead>
+                    <tr>
+                        <th class="w-50" >Product / Service</th>
+                        <th class="text-end">Qty</th>
+                        <th class="text-end">Un it Price</th>
+                        <th class="text-end">Total</th>
+                    </tr>
+                </thead>
+                <tbody id="rows"></tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-end">Sub Total</td>
+                        <td class="text-end">$ <span id="subTotal">0</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="text-end">SGT(5%)</td>
+                        <td class="text-end">$ <span id="gst">0</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="text-end">Total</td>
+                        <td class="text-end">$ <span id="total">0</span></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <h3 class="d-print-block d-none">This text will show in print</h3>
+                  
+</div>
+  </div>
+    </div>
+    
+    <!-- Modal -->
+  <div 
+  class="modal fade" 
+  id="addServiceModal" 
+  tabindex="-1" 
+  role="dialog" 
+  aria-labelledby="addServiceModalLabel" 
+  aria-hidden="true">
+
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title" id="exampleModalLabel">
+            Modal title</h1>
+          <button 
+          type="button" 
+          class="btn-close" 
+          data-dismiss="modal" 
+          aria-label="Close">
+            
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="" id="addServiceForm">
+            
+            <div class=" mb-3">
+
+                <label for="" class="form-label">New Service Name</label>
+                <input 
+                type="text" 
+                class="form-control" 
+                name="new_service_name">
+            </div>
+            <div class=" mb-3">
+                <label for="" class="form-label">New Service Price</label>
+                <input 
+                type="number" 
+                class="form-control" 
+                name="new_service_price">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button 
+          type="button" 
+          class="btn btn-secondary" 
+          data-dismiss="modal">
+          Close
+        </button>
+          <button 
+          type="submit" 
+          form="addServiceForm" 
+          class="btn btn-primary">
+          Save changes
+
+        </button>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    
+      
+      <div 
+      class="offcanvas offcanvas-end" 
+      tabindex="-1" 
+      id="printInfoOffcanvas" 
+      aria-labelledby="printInfoOffcanvasLabel">
+
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" 
+          id="printInfoOffcanvasLabel">
+          Invoice Information</h5>
+
+          <button type="button" 
+          class="btn-close" 
+          data-bs-dismiss="offcanvas" 
+          aria-label="Close">
+        </button>
+        </div>
+        <div class="offcanvas-body">
+          <form action="" id="invoiceInfoForm">
+            <div class=" mb-3">
+                <label for="" class="form-label">Invoice Number</label>
+                <input type="text" class="form-control" name="invoice_number">
+            </div>
+            <div class=" mb-3">
+                <label for="" class="form-label">Invoice Date</label>
+                <input type="date" class="form-control" name="invoice_date">
+            </div>
+            <div class=" mb-3">
+                <label for="" class="form-label">Customer Name</label>
+                <input type="text" class="form-control" name="customer_name">
+            </div>
+            <div class=" mb-3">
+                <label for="" class="form-label">Customer contact</label>
+                <input type="text" class="form-control" name="customer_contact">
+            </div>
+            <div class=" mb-3">
+              <label for="" class="form-label">Customer Address</label>
+              <textarea type="text" class="form-control" name="customer_address"></textarea>
+          </div>
+            <div class="form-check mb-3">
+              <input 
+              type="checkbox" 
+              class="form-check-input"
+              value=""
+              id="flexCheckDefault"
+              required
+              />
+              <label class="form-check-lable" for="flexCheckDefault">All Correct
+                
+              </label>
+            </div>
+          <button class="btn btn-lg btn-dark w-100">Print Invoice</button>
+          </form>
+        </div>
+      </div>
+    </div>
+   
+   <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/invoice.js"></script>
+</body>
+</html>
